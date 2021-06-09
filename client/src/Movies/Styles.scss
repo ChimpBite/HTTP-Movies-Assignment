@@ -1,0 +1,42 @@
+.saved-list {
+  display: flex;
+  justify-content: space-between;
+  margin-top: 2%;
+}
+
+.saved-list-button-container {
+  display: flex;
+  justify-content: space-between;
+  width: 15%;
+}
+
+.movie-card {
+  border-radius: 5px;
+  margin: 1% 0;
+}
+
+.update-wrapper {
+  text-align: center;
+}
+
+.update-form {
+  display: flex;
+  flex-direction: column;
+  width: 50%;
+  margin: 0 auto;
+}
+
+.add-form {
+  display: flex;
+  flex-direction: column;
+  width: 50%;
+  margin: 0 auto;
+}
+
+.add-wrapper {
+  text-align: center;
+}
+
+.list-wrapper {
+  cursor: pointer;
+}

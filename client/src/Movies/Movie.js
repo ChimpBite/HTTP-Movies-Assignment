@@ -1,21 +1,37 @@
-import React, { useEffect, useState } from "react";
-import axios from "axios";
-import { useParams } from "react-router-dom";
-import MovieCard from "./MovieCard";
+import React, { useEffect, useState } from 'react';
+import axios from 'axios';
+import { useParams, useHistory } from 'react-router-dom';
+import MovieCard from './MovieCard';
 
-function Movie({ addToSavedList }) {
+import Box from '@material-ui/core/Box';
+
+import './Styles.scss';
+
+function Movie({ addToSavedList, updateMovieList, removeMovieFromSavedList }) {
   const [movie, setMovie] = useState(null);
+  const { push } = useHistory();
   const params = useParams();
 
-  const fetchMovie = (id) => {
+  const fetchMovie = id => {
     axios
       .get(`http://localhost:5000/api/movies/${id}`)
-      .then((res) => setMovie(res.data))
-      .catch((err) => console.log(err.response));
+      .then(res => setMovie(res.data))
+      .catch(err => console.log(err.response));
   };
 
-  const saveMovie = () => {
-    addToSavedList(movie);
+  const updateMovie = () => {
+    push(`/update-movie/${params.id}`);
+  };
+
+  const deleteMovie = () => {
+    removeMovieFromSavedList(movie);
+    axios
+      .delete(`http://localhost:5000/api/movies/${params.id}`)
+      .then(() => {
+        updateMovieList();
+        push(`/`);
+      })
+      .catch(err => console.log(err.response));
   };
 
   useEffect(() => {
@@ -27,13 +43,16 @@ function Movie({ addToSavedList }) {
   }
 
   return (
-    <div className="save-wrapper">
+    <Box className='list-wrapper'>
       <MovieCard movie={movie} />
-
-      <div className="save-button" onClick={saveMovie}>
-        Save
-      </div>
-    </div>
+      <Box onClick={() => addToSavedList(movie)}>Save</Box>
+      <Box onClick={() => removeMovieFromSavedList(movie)}>
+        Remove Movie From Save List
+      </Box>
+      <Box onClick={updateMovie}>Update Movie</Box>
+      <Box onClick={deleteMovie}>Delete Movie</Box>
+      <MovieCard movie={movie} />
+    </Box>
   );
 }
 
